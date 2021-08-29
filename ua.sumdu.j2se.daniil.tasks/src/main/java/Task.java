@@ -6,6 +6,7 @@ public class Task {
      * задачи могут быть активными или неактивными.
      * Например, в праздничный день задача «Утренняя пробежка» может быть неактивна и временно не выполняться.
      *
+     * Внимание: time в методичке подразумевается как часы, например, start = 8 утра, interval = 2 часа, end=54часа.
      * @autor Daniil Gorelykh
      * @version 0.1
      */
@@ -64,7 +65,8 @@ public class Task {
      */
     public int getTime() {
         if (isRepeated()) {
-            return (this.start + this.interval) % 24;
+            this.start = (this.start + this.interval) % 24;
+            return this.start;
         }
         return this.time;
     }
