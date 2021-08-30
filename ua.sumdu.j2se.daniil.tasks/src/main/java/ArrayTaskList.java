@@ -1,46 +1,54 @@
 import java.util.ArrayList;
+import java.util.List;
 
+/**
+ * Класс содержит в себе list задач и различные методы для list.
+ */
 public class ArrayTaskList {
-    /**
-     * Класс содержит в себе list задач и различные методы для list.
-     */
-    private final ArrayList<Task> list = new ArrayList<Task>();
+
+    private final List<Task> taskArrayList = new ArrayList<>();
 
 
     public void add(Task task) {
-        list.add(task);
+        taskArrayList.add(task);
     }
 
     public boolean remove(Task task) {
-        for (Task element : list) {
+        for (Task element : taskArrayList) {
             if (element.getTitle().equals(task.getTitle())) {
-                return list.remove(element);
+                return taskArrayList.remove(element);
             }
         }
         return false;
     }
 
     public int size() {
-        return list.size();
+        return taskArrayList.size();
     }
 
     public Task getTask(int index) {
-        return list.get(index);
+        return taskArrayList.get(index);
     }
 
     /**
-     *В общем, метод возраващает подмножество задач, которые находятся в интервале [from, to]
+     * В общем, метод возраващает подмножество задач, которые находятся в интервале [from, to]
+     *
      * @param from - time
      * @param to   - time
      * @return list
      */
     public ArrayList<Task> incoming(int from, final int to) {
-        ArrayList<Task> temp = new ArrayList<Task>();
-        for (Task element : list) {
-            if ((from <= element.getStartTime() && element.getStartTime() <= to) || (from <= element.getTime() && element.getTime() <= to)) {
+        ArrayList<Task> temp = new ArrayList<>();
+        for (Task element : taskArrayList) {
+            if (isIntervalValid(element, from, to)) {
                 temp.add(element);
             }
         }
         return temp;
+    }
+
+    // Проверка, входит ли задача в заданный интервал [from, to]
+    private boolean isIntervalValid(Task element, int from, int to) {
+        return (from <= element.getStartTime() && element.getStartTime() <= to) || (from <= element.getTime() && element.getTime() <= to);
     }
 }
