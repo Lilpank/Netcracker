@@ -5,18 +5,22 @@ import java.util.Arrays;
  * Класс содержит в себе массив объектов Task и различные методы для list.
  */
 
-public class ArrayTaskList {
+public class ArrayTaskList implements TaskList<ArrayList<Task>> {
 
     private static final int INITIAL_CAPACITY = 10;
     private int size = 0;
     private Task[] elementData = {};
 
-
     public ArrayTaskList() {
         elementData = new Task[INITIAL_CAPACITY];
     }
 
+    @Override
     public void add(Task task) {
+        if (task == null) {
+            throw new IllegalArgumentException();
+        }
+
         if (size == elementData.length) {
             ensureCapacity(); // вызывается метод, если закончился массив и нужно создать новый с большим размером.
         }
@@ -30,8 +34,12 @@ public class ArrayTaskList {
         elementData = Arrays.copyOf(elementData, newIncreasedCapacity);
     }
 
-
+    @Override
     public boolean remove(Task task) {
+        if (task == null) {
+            throw new IllegalArgumentException();
+        }
+
         for (int i = 0; i < size; i++) {
             if (equalsTasks(elementData[i], task)) {
                 if (size - 1 - i >= 0) System.arraycopy(elementData, i + 1, elementData, i, size - 1 - i);
@@ -47,11 +55,17 @@ public class ArrayTaskList {
         return element.getTitle().equals(task.getTitle()) && element.getTime() == task.getTime();
     }
 
+    @Override
     public int size() {
         return elementData.length;
     }
 
+    @Override
     public Task getTask(int index) {
+        if (index >= size()) {
+            throw new IndexOutOfBoundsException("index не должен превышать размер листа.");
+        }
+
         return elementData[index];
     }
 
@@ -62,7 +76,12 @@ public class ArrayTaskList {
      * @param to   - time
      * @return
      */
+    @Override
     public ArrayList<Task> incoming(int from, int to) {
+        if (from < 0 || to < 0) {
+            throw new IndexOutOfBoundsException();
+        }
+
         ArrayList<Task> tasks = new ArrayList<>();
         for (Task element : elementData) {
             if (isIntervalValid(element, from, to)) {
@@ -84,4 +103,5 @@ public class ArrayTaskList {
             System.out.print(elementData[i].getTime() + " ");
         }
     }
+
 }

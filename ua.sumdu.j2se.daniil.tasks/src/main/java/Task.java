@@ -22,6 +22,12 @@ public class Task {
      * Конструктор для неактивной задачи, без повторения с заданным именем и временем.
      */
     public Task(String title, int time) {
+        if (time < 0) {
+            throw new IllegalArgumentException("Время не может быть отрицательным.");
+        }
+        if (title == null) {
+            throw new IllegalArgumentException();
+        }
         this.title = title;
         this.time = time;
     }
@@ -33,6 +39,9 @@ public class Task {
      * @param interval - время, через которое будет повторяться задача.
      */
     public Task(String title, int start, int end, int interval) {
+        if (interval <= 0) {
+            throw new IllegalArgumentException("Интервал повторения должен быть больше нуля.");
+        }
         this.title = title;
         this.start = start;
         this.end = end;
@@ -120,4 +129,5 @@ public class Task {
         }
         return -1;
     }
+
 }
