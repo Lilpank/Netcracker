@@ -21,7 +21,7 @@ public class Task {
     /**
      * Конструктор для неактивной задачи, без повторения с заданным именем и временем.
      */
-    public Task(String title, int time) {
+    public Task(String title, int time) throws IllegalArgumentException {
         if (time < 0) {
             throw new IllegalArgumentException("Время не может быть отрицательным.");
         }
@@ -38,9 +38,13 @@ public class Task {
      *
      * @param interval - время, через которое будет повторяться задача.
      */
-    public Task(String title, int start, int end, int interval) {
-        if (interval <= 0) {
-            throw new IllegalArgumentException("Интервал повторения должен быть больше нуля.");
+    public Task(String title, int start, int end, int interval) throws IllegalArgumentException {
+        if (interval <= 0 || start < 0 || end <= 0 || (start >= end)) {
+            throw new IllegalArgumentException();
+        }
+
+        if (title == null) {
+            throw new IllegalArgumentException();
         }
         this.title = title;
         this.start = start;
@@ -52,7 +56,10 @@ public class Task {
         return title;
     }
 
-    public void setTitle(String title) {
+    public void setTitle(String title) throws IllegalArgumentException {
+        if (title == null) {
+            throw new IllegalArgumentException();
+        }
         this.title = title;
     }
 
@@ -81,7 +88,10 @@ public class Task {
         return this.time;
     }
 
-    public void setTime(int time) {
+    public void setTime(int time) throws IllegalArgumentException {
+        if (time < 0) {
+            throw new IllegalArgumentException();
+        }
         if (isRepeated()) {
             this.interval = 0;
         } else {
@@ -108,6 +118,9 @@ public class Task {
     }
 
     public void setTime(int start, int end, int interval) {
+        if (interval <= 0 || start < 0 || end <= 0 || (start >= end)) {
+            throw new IllegalArgumentException();
+        }
         this.start = start;
         this.end = end;
         this.interval = interval;

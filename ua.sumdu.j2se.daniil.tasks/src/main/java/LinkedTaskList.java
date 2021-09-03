@@ -1,12 +1,9 @@
-import java.util.ArrayList;
-import java.util.LinkedList;
-
 /**
  * Класс создан на основе логики коллекции LinkedList,
  * используется для удобства быстрой вставки\удаления элемента, выполняется за константное время.
  */
 
-public class LinkedTaskList implements TaskList<LinkedList<Task>> {
+public class LinkedTaskList extends AbstractTaskList {
     private Node head;
     private Node tail;
     private int count = 0;
@@ -26,7 +23,7 @@ public class LinkedTaskList implements TaskList<LinkedList<Task>> {
 
 
     @Override
-    public void add(Task task) {
+    public void add(Task task) throws IllegalArgumentException {
         if (task == null) {
             throw new IllegalArgumentException();
         }
@@ -45,7 +42,7 @@ public class LinkedTaskList implements TaskList<LinkedList<Task>> {
 
 
     @Override
-    public boolean remove(Task task) {
+    public boolean remove(Task task) throws IllegalArgumentException {
         if (task == null) {
             throw new IllegalArgumentException();
         }
@@ -103,7 +100,7 @@ public class LinkedTaskList implements TaskList<LinkedList<Task>> {
     }
 
     @Override
-    public Task getTask(int index) {
+    public Task getTask(int index) throws IndexOutOfBoundsException {
         if (index >= count || index < 0) {
             throw new IndexOutOfBoundsException();
         }
@@ -121,12 +118,12 @@ public class LinkedTaskList implements TaskList<LinkedList<Task>> {
     }
 
     @Override
-    public LinkedList<Task> incoming(int from, int to) {
+    public LinkedTaskList incoming(int from, int to) throws IndexOutOfBoundsException {
         if (from < 0 || to < 0) {
             throw new IndexOutOfBoundsException();
         }
 
-        LinkedList<Task> tasks = new LinkedList<>();
+        LinkedTaskList tasks = new LinkedTaskList();
         Node currentNode = head;
         while (currentNode != null) {
             if (isIntervalValid(currentNode.data, from, to)) {

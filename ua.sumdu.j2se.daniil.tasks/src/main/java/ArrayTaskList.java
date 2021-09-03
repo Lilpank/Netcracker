@@ -1,11 +1,10 @@
-import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
  * Класс содержит в себе массив объектов Task и различные методы для list.
  */
 
-public class ArrayTaskList implements TaskList<ArrayList<Task>> {
+public class ArrayTaskList extends AbstractTaskList {
 
     private static final int INITIAL_CAPACITY = 10;
     private int size = 0;
@@ -16,7 +15,7 @@ public class ArrayTaskList implements TaskList<ArrayList<Task>> {
     }
 
     @Override
-    public void add(Task task) {
+    public void add(Task task) throws IllegalArgumentException {
         if (task == null) {
             throw new IllegalArgumentException();
         }
@@ -35,7 +34,7 @@ public class ArrayTaskList implements TaskList<ArrayList<Task>> {
     }
 
     @Override
-    public boolean remove(Task task) {
+    public boolean remove(Task task) throws IllegalArgumentException {
         if (task == null) {
             throw new IllegalArgumentException();
         }
@@ -61,7 +60,7 @@ public class ArrayTaskList implements TaskList<ArrayList<Task>> {
     }
 
     @Override
-    public Task getTask(int index) {
+    public Task getTask(int index) throws IndexOutOfBoundsException {
         if (index >= size()) {
             throw new IndexOutOfBoundsException("index не должен превышать размер листа.");
         }
@@ -77,12 +76,12 @@ public class ArrayTaskList implements TaskList<ArrayList<Task>> {
      * @return
      */
     @Override
-    public ArrayList<Task> incoming(int from, int to) {
+    public ArrayTaskList incoming(int from, int to) throws IndexOutOfBoundsException {
         if (from < 0 || to < 0) {
             throw new IndexOutOfBoundsException();
         }
 
-        ArrayList<Task> tasks = new ArrayList<>();
+        ArrayTaskList tasks = new ArrayTaskList();
         for (Task element : elementData) {
             if (isIntervalValid(element, from, to)) {
                 tasks.add(element);
