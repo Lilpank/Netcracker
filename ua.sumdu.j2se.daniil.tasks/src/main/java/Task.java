@@ -10,7 +10,7 @@
  * @version 0.1
  * @autor Daniil Gorelykh
  */
-public class Task {
+public class Task implements Cloneable{
     private String title;
     private int end;
     private int interval = 0;
@@ -126,6 +126,34 @@ public class Task {
         this.interval = interval;
     }
 
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) return false;
+        if (!(obj instanceof Task)) return false;
+        if (obj == this) return true;
+
+        return isCheckTask(this, (Task) obj);
+    }
+
+    private boolean isCheckTask(Task myTask, Task other) {
+        return myTask.getTitle().equals(other.getTitle()) && myTask.getTime() == other.getTime();
+    }
+
+    @Override
+    protected Task clone() throws CloneNotSupportedException {
+        return (Task) super.clone();
+    }
+
+    @Override
+    public String toString() {
+        return "Task - " + getTitle() + "Время начала: " + getTime() + "Время окончания: " + getEndTime();
+    }
+
     public boolean isRepeated() {
         return getRepeatInterval() != 0;
     }
@@ -141,6 +169,12 @@ public class Task {
             return getTime() - current > 0 ? getTime() : -1;
         }
         return -1;
+    }
+
+    public static void main(String[] args) throws CloneNotSupportedException {
+        Task task = new Task("", 1);
+        Task cloneTask = task.clone();
+        System.out.println(cloneTask.equals(task));
     }
 
 }

@@ -2,12 +2,13 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  * Класс содержит в себе массив объектов Task и различные методы для list.
  */
 
-public class ArrayTaskList extends AbstractTaskList implements Iterator<Task> {
+public class ArrayTaskList extends AbstractTaskList implements Iterator<Task>, Cloneable {
 
     private static final int INITIAL_CAPACITY = 10;
     private int size = 0;
@@ -118,7 +119,49 @@ public class ArrayTaskList extends AbstractTaskList implements Iterator<Task> {
     }
 
     @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) return false;
+        if (obj == this) return true;
+        if (!(obj instanceof ArrayTaskList)) return false;
+
+        if (((ArrayTaskList) obj).size() == this.size()) {
+            for (int i = 0; i < this.size(); i++) {
+                if (!(this.getTask(i).equals(((ArrayTaskList) obj).getTask(i)))) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+
+
+    @Override
+    protected ArrayTaskList clone() throws CloneNotSupportedException {
+        return (ArrayTaskList) super.clone();
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder str = new StringBuilder();
+        for (int i = 0; i < size(); i++) {
+            str.append(getTask(i).toString());
+            str.append("\n");
+        }
+
+        return "ArrayTaskList size: " + size() + str;
+    }
+
+    @Override
     public Task next() {
+        if (position == size()) {
+            throw new NoSuchElementException();
+        }
         Task task = getTask(position);
         position++;
         return task;

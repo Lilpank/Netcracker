@@ -8,5 +8,4 @@ public abstract class AbstractTaskList implements Iterable<Task> {
     public abstract Task getTask(int index);
 
     public abstract AbstractTaskList incoming(int from, int to);
-
 }

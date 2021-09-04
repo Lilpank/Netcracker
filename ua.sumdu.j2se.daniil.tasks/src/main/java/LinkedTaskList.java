@@ -1,13 +1,14 @@
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  * Класс создан на основе логики коллекции LinkedList,
  * используется для удобства быстрой вставки\удаления элемента, выполняется за константное время.
  */
 
-public class LinkedTaskList extends AbstractTaskList implements @NotNull Iterator<Task> {
+public class LinkedTaskList extends AbstractTaskList implements @NotNull Iterator<Task>, Cloneable {
     private Node head;
     private Node tail;
     private int count = 0;
@@ -24,7 +25,37 @@ public class LinkedTaskList extends AbstractTaskList implements @NotNull Iterato
     }
 
     @Override
-    public Task next() {
+    public int hashCode() {
+        return super.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) return false;
+        if (obj == this) return true;
+        if (!(obj instanceof LinkedTaskList)) return false;
+
+        if (((LinkedTaskList) obj).size() == this.size()) {
+            for (int i = 0; i < this.size(); i++) {
+                if (!(this.getTask(i).equals(((LinkedTaskList) obj).getTask(i)))) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    protected LinkedTaskList clone() throws CloneNotSupportedException {
+        return (LinkedTaskList) super.clone();
+    }
+
+    @Override
+    public Task next() throws NoSuchElementException {
+        if (position == size()) {
+            throw new NoSuchElementException();
+        }
         Task task = getTask(position);
         position++;
         return task;
@@ -163,30 +194,22 @@ public class LinkedTaskList extends AbstractTaskList implements @NotNull Iterato
 
     @Override
     public String toString() {
-        return "Node: " + "values = " + head.data + "next = " + head.next + "previsious = " + head.previous;
-    }
-
-    public static void printList(LinkedTaskList list) {
-        Node currNode = list.head;
-
-        System.out.print("LinkedList: ");
-
-        // Traverse through the LinkedList
-        while (currNode != null) {
-            // Print the data at current node
-            System.out.print(currNode.data.getTime() + " ");
-
-            // Go to next node
-            currNode = currNode.next;
+        StringBuilder str = new StringBuilder();
+        for (int i = 0; i < size(); i++) {
+            str.append(getTask(i).toString());
+            str.append("\n");
         }
+
+        return "LinkedListTask size: " + size() + str;
     }
+
 
     //Метод проверяет задачи на эквивалентность.
     private boolean equalsTasks(Task element, Task task) {
         return (element.getTitle().equals(task.getTitle())) && element.getTime() == task.getTime();
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws CloneNotSupportedException {
         LinkedTaskList arrayTaskList = new LinkedTaskList();
         for (int i = 0; i < 10; i++) {
             arrayTaskList.add(new Task("", i));
@@ -195,5 +218,8 @@ public class LinkedTaskList extends AbstractTaskList implements @NotNull Iterato
         for (Task task : arrayTaskList) {
             System.out.println(task.getTime());
         }
+
+        LinkedTaskList cloneArrayTaskList = arrayTaskList.clone();
+        System.out.println(cloneArrayTaskList.equals(arrayTaskList));
     }
 }
