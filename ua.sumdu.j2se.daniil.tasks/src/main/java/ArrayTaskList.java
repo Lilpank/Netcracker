@@ -1,17 +1,26 @@
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Arrays;
+import java.util.Iterator;
 
 /**
  * Класс содержит в себе массив объектов Task и различные методы для list.
  */
 
-public class ArrayTaskList extends AbstractTaskList {
+public class ArrayTaskList extends AbstractTaskList implements Iterator<Task> {
 
     private static final int INITIAL_CAPACITY = 10;
     private int size = 0;
     private Task[] elementData = {};
+    private int position = 0;
 
     public ArrayTaskList() {
         elementData = new Task[INITIAL_CAPACITY];
+    }
+
+    @Override
+    public @NotNull Iterator<Task> iterator() {
+        return this;
     }
 
     @Override
@@ -103,4 +112,26 @@ public class ArrayTaskList extends AbstractTaskList {
         }
     }
 
+    @Override
+    public boolean hasNext() {
+        return position < size();
+    }
+
+    @Override
+    public Task next() {
+        Task task = getTask(position);
+        position++;
+        return task;
+    }
+
+    public static void main(String[] args) {
+        ArrayTaskList arrayTaskList = new ArrayTaskList();
+        for (int i = 0; i < 10; i++) {
+            arrayTaskList.add(new Task("", i));
+        }
+
+        for (Task task : arrayTaskList) {
+            System.out.println(task.getTime());
+        }
+    }
 }

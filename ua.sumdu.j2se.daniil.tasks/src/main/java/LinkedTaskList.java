@@ -1,12 +1,34 @@
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Iterator;
+
 /**
  * Класс создан на основе логики коллекции LinkedList,
  * используется для удобства быстрой вставки\удаления элемента, выполняется за константное время.
  */
 
-public class LinkedTaskList extends AbstractTaskList {
+public class LinkedTaskList extends AbstractTaskList implements @NotNull Iterator<Task> {
     private Node head;
     private Node tail;
     private int count = 0;
+    private int position = 0;
+
+    @Override
+    public @NotNull Iterator<Task> iterator() {
+        return this;
+    }
+
+    @Override
+    public boolean hasNext() {
+        return position < size();
+    }
+
+    @Override
+    public Task next() {
+        Task task = getTask(position);
+        position++;
+        return task;
+    }
 
     // Создаем класс Узел, у которого есть ссылки на first, last элемент.
     private static class Node {
@@ -162,5 +184,16 @@ public class LinkedTaskList extends AbstractTaskList {
     //Метод проверяет задачи на эквивалентность.
     private boolean equalsTasks(Task element, Task task) {
         return (element.getTitle().equals(task.getTitle())) && element.getTime() == task.getTime();
+    }
+
+    public static void main(String[] args) {
+        LinkedTaskList arrayTaskList = new LinkedTaskList();
+        for (int i = 0; i < 10; i++) {
+            arrayTaskList.add(new Task("", i));
+        }
+
+        for (Task task : arrayTaskList) {
+            System.out.println(task.getTime());
+        }
     }
 }
