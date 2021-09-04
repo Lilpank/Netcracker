@@ -51,14 +51,14 @@ public class LinkedTaskList extends AbstractTaskList {
             return false;
         }
         //Проверка если пришел Task на самый первый элемент, то есть head.
-        if (head.data.getTime() == task.getTime()) {
+        if (equalsTasks(head.data, task)) {
             head = head.next;
             head.previous = null;
             --count;
             return true;
         }
         // Если пришел Task на самый последний элемент, то есть tail.
-        if (tail.data.getTime() == task.getTime()) {
+        if (equalsTasks(tail.data, task)) {
             tail = tail.previous;
             tail.previous = null;
             tail.next = null;
@@ -86,7 +86,7 @@ public class LinkedTaskList extends AbstractTaskList {
     private Node findNode(Task value) {
         Node node = head;
         while (node.next != null) {
-            if (node.next.data.getTime() == value.getTime()) {
+            if (equalsTasks(node.next.data, value)) {
                 return node.next;
             }
             node = node.next;
@@ -157,5 +157,10 @@ public class LinkedTaskList extends AbstractTaskList {
             // Go to next node
             currNode = currNode.next;
         }
+    }
+
+    //Метод проверяет задачи на эквивалентность.
+    private boolean equalsTasks(Task element, Task task) {
+        return (element.getTitle().equals(task.getTitle())) && element.getTime() == task.getTime();
     }
 }

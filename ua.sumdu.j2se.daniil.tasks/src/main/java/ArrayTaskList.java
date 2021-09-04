@@ -51,7 +51,7 @@ public class ArrayTaskList extends AbstractTaskList {
 
     //Метод проверяет задачи на эквивалентность.
     private boolean equalsTasks(Task element, Task task) {
-        return element.getTitle().equals(task.getTitle()) && element.getTime() == task.getTime();
+        return (element.getTitle().equals(task.getTitle())) && element.getTime() == task.getTime();
     }
 
     @Override
