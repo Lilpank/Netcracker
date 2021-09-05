@@ -2,6 +2,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.stream.Stream;
 
 /**
  * Класс создан на основе логики коллекции LinkedList,
@@ -171,25 +172,12 @@ public class LinkedTaskList extends AbstractTaskList implements @NotNull Iterato
     }
 
     @Override
-    public LinkedTaskList incoming(int from, int to) throws IndexOutOfBoundsException {
-        if (from < 0 || to < 0) {
-            throw new IndexOutOfBoundsException();
+    public Stream<Task> getStream() {
+        Stream<Task> stream = Stream.of(this.getTask(0));
+        for (int i = 1; i < size(); i++) {
+            stream = Stream.concat(stream, Stream.of(this.getTask(i)));
         }
-
-        LinkedTaskList tasks = new LinkedTaskList();
-        Node currentNode = head;
-        while (currentNode != null) {
-            if (isIntervalValid(currentNode.data, from, to)) {
-                tasks.add(currentNode.data);
-            }
-            currentNode = currentNode.next;
-        }
-
-        return tasks;
-    }
-
-    private boolean isIntervalValid(Task element, int from, int to) {
-        return (from <= element.getStartTime() && element.getStartTime() <= to) || (from <= element.getTime() && element.getTime() <= to);
+        return stream;
     }
 
     @Override

@@ -1,8 +1,8 @@
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
+import java.util.*;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 /**
  * Класс содержит в себе массив объектов Task и различные методы для list.
@@ -78,40 +78,15 @@ public class ArrayTaskList extends AbstractTaskList implements Iterator<Task>, C
         return elementData[index];
     }
 
-    /**
-     * В общем, метод возраващает подмножество задач, которые находятся в интервале [from, to]
-     *
-     * @param from - time
-     * @param to   - time
-     * @return
-     */
     @Override
-    public ArrayTaskList incoming(int from, int to) throws IndexOutOfBoundsException {
-        if (from < 0 || to < 0) {
-            throw new IndexOutOfBoundsException();
+    public Stream<Task> getStream() {
+        Stream<Task> stream = Stream.of(this.getTask(0));
+        for (int i = 1; i < size(); i++) {
+            stream = Stream.concat(stream, Stream.of(this.getTask(i)));
         }
-
-        ArrayTaskList tasks = new ArrayTaskList();
-        for (Task element : elementData) {
-            if (isIntervalValid(element, from, to)) {
-                tasks.add(element);
-            }
-        }
-        return tasks;
+        return stream;
     }
 
-
-    // Метод проверяет, входит ли задача в заданный интервал [from, to]
-    private boolean isIntervalValid(Task element, int from, int to) {
-        return (from <= element.getStartTime() && element.getStartTime() <= to) || (from <= element.getTime() && element.getTime() <= to);
-    }
-
-    public void display() {
-        System.out.print("Displaying list : ");
-        for (int i = 0; i < size; i++) {
-            System.out.print(elementData[i].getTime() + " ");
-        }
-    }
 
     @Override
     public boolean hasNext() {
@@ -146,6 +121,8 @@ public class ArrayTaskList extends AbstractTaskList implements Iterator<Task>, C
         return (ArrayTaskList) super.clone();
     }
 
+
+
     @Override
     public String toString() {
         StringBuilder str = new StringBuilder();
@@ -174,7 +151,9 @@ public class ArrayTaskList extends AbstractTaskList implements Iterator<Task>, C
         }
 
         for (Task task : arrayTaskList) {
-            System.out.println(task.getTime());
+            System.out.println(task);
         }
+        System.out.println(arrayTaskList.getStream().count());
+
     }
 }
