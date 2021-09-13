@@ -10,7 +10,7 @@ public abstract class AbstractTaskList implements Iterable<Task> {
 
     public abstract Task getTask(int index);
 
-    protected final AbstractTaskList incoming(LocalDateTime from, LocalDateTime to) {
+    public final AbstractTaskList incoming(LocalDateTime from, LocalDateTime to) {
         if (from == null || to == null) {
             throw new IllegalArgumentException();
         }
