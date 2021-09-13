@@ -1,4 +1,4 @@
-public class TaskListFactory implements AbstractFactory {
+public class TaskListFactory {
     public static AbstractTaskList createTaskList(ListTypes listType) {
         if ("linked".equals(listType.getType())) {
             return new LinkedTaskList();

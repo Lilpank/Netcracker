@@ -122,7 +122,6 @@ public class ArrayTaskList extends AbstractTaskList implements Iterator<Task>, C
     }
 
 
-
     @Override
     public String toString() {
         StringBuilder str = new StringBuilder();
@@ -142,18 +141,5 @@ public class ArrayTaskList extends AbstractTaskList implements Iterator<Task>, C
         Task task = getTask(position);
         position++;
         return task;
-    }
-
-    public static void main(String[] args) {
-        ArrayTaskList arrayTaskList = new ArrayTaskList();
-        for (int i = 0; i < 10; i++) {
-            arrayTaskList.add(new Task("", i));
-        }
-
-        for (Task task : arrayTaskList) {
-            System.out.println(task);
-        }
-        System.out.println(arrayTaskList.getStream().count());
-
     }
 }

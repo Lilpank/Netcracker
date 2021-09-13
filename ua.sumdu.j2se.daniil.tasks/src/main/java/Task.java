@@ -1,3 +1,5 @@
+import java.time.LocalDateTime;
+
 /**
  * Класс отвечает за создание задачи.
  * Задача имеет название и время, когда она будет выполняться.
@@ -10,22 +12,19 @@
  * @version 0.1
  * @autor Daniil Gorelykh
  */
-public class Task implements Cloneable{
+public class Task implements Cloneable {
     private String title;
-    private int end;
+    private LocalDateTime end;
     private int interval = 0;
-    private int start;
+    private LocalDateTime start;
     private boolean active = true;
-    private int time;
+    private LocalDateTime time;
 
     /**
      * Конструктор для неактивной задачи, без повторения с заданным именем и временем.
      */
-    public Task(String title, int time) throws IllegalArgumentException {
-        if (time < 0) {
-            throw new IllegalArgumentException("Время не может быть отрицательным.");
-        }
-        if (title == null) {
+    public Task(String title, LocalDateTime time) throws IllegalArgumentException {
+        if (title == null || time == null) {
             throw new IllegalArgumentException();
         }
         this.title = title;
@@ -38,12 +37,12 @@ public class Task implements Cloneable{
      *
      * @param interval - время, через которое будет повторяться задача.
      */
-    public Task(String title, int start, int end, int interval) throws IllegalArgumentException {
-        if (interval <= 0 || start < 0 || end <= 0 || (start >= end)) {
+    public Task(String title, LocalDateTime start, LocalDateTime end, int interval) throws IllegalArgumentException {
+        if (interval <= 0) {
             throw new IllegalArgumentException();
         }
 
-        if (title == null) {
+        if (title == null || start == null || end == null) {
             throw new IllegalArgumentException();
         }
         this.title = title;
@@ -80,16 +79,15 @@ public class Task implements Cloneable{
      *
      * @return - точное время выполнения задачи.
      */
-    public int getTime() {
+    public LocalDateTime getTime() {
         if (isRepeated()) {
-            this.start = (this.start + this.interval) % 24;
             return this.start;
         }
         return this.time;
     }
 
-    public void setTime(int time) throws IllegalArgumentException {
-        if (time < 0) {
+    public void setTime(LocalDateTime time) throws IllegalArgumentException {
+        if (time == null) {
             throw new IllegalArgumentException();
         }
         if (isRepeated()) {
@@ -99,7 +97,7 @@ public class Task implements Cloneable{
         }
     }
 
-    public int getStartTime() {
+    public LocalDateTime getStartTime() {
         if (isRepeated()) {
             return this.start;
         }
@@ -110,15 +108,15 @@ public class Task implements Cloneable{
         return this.interval;
     }
 
-    public int getEndTime() {
+    public LocalDateTime getEndTime() {
         if (isRepeated()) {
             return this.end;
         }
         return this.time;
     }
 
-    public void setTime(int start, int end, int interval) {
-        if (interval <= 0 || start < 0 || end <= 0 || (start >= end)) {
+    public void setTime(LocalDateTime start, LocalDateTime end, int interval) {
+        if (interval <= 0 || start.isAfter(end)) {
             throw new IllegalArgumentException();
         }
         this.start = start;
@@ -164,17 +162,11 @@ public class Task implements Cloneable{
      * @param current - текущее время.
      * @return -1 в плохом случае, time в лучшем.
      */
-    public int nextTimeAfter(int current) {
+    public LocalDateTime nextTimeAfter(LocalDateTime current) {
         if (isActive()) {
-            return getTime() - current > 0 ? getTime() : -1;
+            if (this.getTime().isBefore(current)) return this.getTime();
         }
-        return -1;
-    }
-
-    public static void main(String[] args) throws CloneNotSupportedException {
-        Task task = new Task("", 1);
-        Task cloneTask = task.clone();
-        System.out.println(cloneTask.equals(task));
+        return null;
     }
 
 }

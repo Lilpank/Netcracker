@@ -196,18 +196,4 @@ public class LinkedTaskList extends AbstractTaskList implements @NotNull Iterato
     private boolean equalsTasks(Task element, Task task) {
         return (element.getTitle().equals(task.getTitle())) && element.getTime() == task.getTime();
     }
-
-    public static void main(String[] args) throws CloneNotSupportedException {
-        LinkedTaskList arrayTaskList = new LinkedTaskList();
-        for (int i = 0; i < 10; i++) {
-            arrayTaskList.add(new Task("", i));
-        }
-
-        for (Task task : arrayTaskList) {
-            System.out.println(task.getTime());
-        }
-
-        LinkedTaskList cloneArrayTaskList = arrayTaskList.clone();
-        System.out.println(cloneArrayTaskList.equals(arrayTaskList));
-    }
 }

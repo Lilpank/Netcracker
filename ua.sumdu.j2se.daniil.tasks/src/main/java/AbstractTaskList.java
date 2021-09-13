@@ -1,3 +1,4 @@
+import java.time.LocalDateTime;
 import java.util.stream.Stream;
 
 public abstract class AbstractTaskList implements Iterable<Task> {
@@ -9,16 +10,19 @@ public abstract class AbstractTaskList implements Iterable<Task> {
 
     public abstract Task getTask(int index);
 
-    protected AbstractTaskList incoming(int from, int to) {
-        if (from < 0 || to < 0) {
-            throw new IndexOutOfBoundsException();
+    protected final AbstractTaskList incoming(LocalDateTime from, LocalDateTime to) {
+        if (from == null || to == null) {
+            throw new IllegalArgumentException();
+        }
+        if (from.isAfter(to)) {
+            throw new IllegalArgumentException();
         }
 
         return (AbstractTaskList) getStream().filter(task -> isIntervalValid(task, from, to));
     }
 
-    private boolean isIntervalValid(Task element, int from, int to) {
-        return (from <= element.getStartTime() && element.getStartTime() <= to) || (from <= element.getTime() && element.getTime() <= to);
+    private boolean isIntervalValid(Task element, LocalDateTime from, LocalDateTime to) {
+        return (from.isBefore(element.getStartTime()) && to.isAfter(element.getStartTime())) || (from.isBefore(element.getTime()) && to.isAfter(element.getTime()));
     }
 
     abstract Stream<Task> getStream();
