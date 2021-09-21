@@ -25,8 +25,7 @@ public class Tasks {
     }
 
     private static boolean isIntervalValid(Task element, LocalDateTime from, LocalDateTime to) {
-        return from.isBefore(element.getStartTime()) && to.isAfter(element.getStartTime()) ||
-                from.isBefore(element.getTime()) && to.isAfter(element.getTime());
+        return from.isBefore(element.getStartTime()) && to.isAfter(element.getStartTime());
     }
 
     /**
@@ -49,15 +48,43 @@ public class Tasks {
     public SortedMap<LocalDateTime, Set<Task>> calendar(Iterable<Task> tasks, LocalDateTime start, LocalDateTime end) {
         Iterable<Task> iterable = incoming(tasks, start, end);
         TreeMap<LocalDateTime, Set<Task>> sortedMap = new TreeMap<>();
-        tasks.forEach(task -> sortedMap.put(task.getTime(),
-                StreamSupport.stream(iterable.spliterator(), false).collect(Collectors.toSet())
 
-        ));
-//        tasks.forEach(task -> sortedMap.put(
-//                start,
-//                StreamSupport.stream(iterable.spliterator(), false).collect(Collectors.toSet())
-//                )
-//        );
+        for (Task task : iterable) {
+            if (!sortedMap.containsKey(task.getTime())) {
+                LocalDateTime date_key = task.getTime();
+                sortedMap.put(date_key, StreamSupport.stream(iterable.spliterator(), false)
+                        .filter(task1 -> date_key.equals(task.getTime()))
+                        .collect(Collectors.toSet())
+                );
+            }
+        }
+
+//        tasks.forEach(task -> {
+//            System.out.println(!sortedMap.containsKey(task.getTime()));
+//            if (!sortedMap.containsKey(task.getTime())) {
+//                LocalDateTime date_key = task.getTime();
+//                sortedMap.put(
+//                        date_key,
+//                        StreamSupport.stream(iterable.spliterator(), false)
+//                                .filter(task1 -> date_key.equals(task.getTime()))
+//                                .collect(Collectors.toSet())
+//                );
+//            }
+//        });
         return sortedMap;
     }
+
+    public static void main(String[] args) throws InterruptedException {
+        LinkedTaskList arrayTaskList = new LinkedTaskList();
+        arrayTaskList.add(new Task("1", LocalDateTime.now()));
+        arrayTaskList.add(new Task("2", LocalDateTime.now()));
+        arrayTaskList.add(new Task("3", LocalDateTime.of(2021, 9, 22, 5, 1)));
+        arrayTaskList.add(new Task("4", LocalDateTime.of(2022, 10, 23, 6, 20)));
+        Thread.sleep(2000);
+
+        Tasks tasks = new Tasks();
+        System.out.println(tasks.calendar(arrayTaskList, LocalDateTime.of(2021, 9, 21, 18, 13, 2, 1), LocalDateTime.now()));
+
+    }
+
 }

@@ -184,7 +184,7 @@ public class LinkedTaskList extends AbstractTaskList implements @NotNull Iterato
             str.append("\n");
         }
 
-        return "LinkedListTask size: " + size() + str;
+        return "LinkedListTask size: " + size() + "\n" + str;
     }
 
 

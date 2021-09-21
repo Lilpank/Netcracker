@@ -149,7 +149,7 @@ public class Task implements Cloneable {
 
     @Override
     public String toString() {
-        return "Task - " + getTitle() + "Время начала: " + getTime() + " Время окончания: " + getEndTime();
+        return "Task - " + getTitle() + " Время начала: " + getTime() + " Время окончания: " + getEndTime();
     }
 
     public boolean isRepeated() {

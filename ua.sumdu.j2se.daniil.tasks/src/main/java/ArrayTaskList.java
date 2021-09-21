@@ -34,6 +34,7 @@ public class ArrayTaskList extends AbstractTaskList implements Iterator<Task>, C
             ensureCapacity(); // вызывается метод, если закончился массив и нужно создать новый с большим размером.
         }
         elementData[size++] = task;
+        System.out.println(elementData);
     }
 
 
