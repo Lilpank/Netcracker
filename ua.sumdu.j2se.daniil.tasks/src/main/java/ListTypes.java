@@ -1,7 +1,7 @@
 public enum ListTypes {
     ARRAY("array"), LINKED("linked");
 
-    private final  String type;
+    private final String type;
 
     ListTypes(String title) {
         this.type = title;

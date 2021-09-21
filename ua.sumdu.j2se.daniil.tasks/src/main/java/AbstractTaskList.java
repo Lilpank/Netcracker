@@ -10,20 +10,13 @@ public abstract class AbstractTaskList implements Iterable<Task> {
 
     public abstract Task getTask(int index);
 
-    public final AbstractTaskList incoming(LocalDateTime from, LocalDateTime to) {
-        if (from == null || to == null) {
-            throw new IllegalArgumentException();
+
+
+    public Stream<Task> getStream() {
+        Stream<Task> stream = Stream.of(this.getTask(0));
+        for (int i = 1; i < size(); i++) {
+            stream = Stream.concat(stream, Stream.of(this.getTask(i)));
         }
-        if (from.isAfter(to)) {
-            throw new IllegalArgumentException();
-        }
-
-        return (AbstractTaskList) getStream().filter(task -> isIntervalValid(task, from, to));
+        return stream;
     }
-
-    private boolean isIntervalValid(Task element, LocalDateTime from, LocalDateTime to) {
-        return (from.isBefore(element.getStartTime()) && to.isAfter(element.getStartTime())) || (from.isBefore(element.getTime()) && to.isAfter(element.getTime()));
-    }
-
-    abstract Stream<Task> getStream();
 }

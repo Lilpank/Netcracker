@@ -25,10 +25,6 @@ public class LinkedTaskList extends AbstractTaskList implements @NotNull Iterato
         return position < size();
     }
 
-    @Override
-    public int hashCode() {
-        return super.hashCode();
-    }
 
     @Override
     public boolean equals(Object obj) {

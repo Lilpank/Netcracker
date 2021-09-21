@@ -1,9 +1,10 @@
 public class TaskListFactory {
     public static AbstractTaskList createTaskList(ListTypes listType) {
-        if ("linked".equals(listType.getType())) {
-            return new LinkedTaskList();
-        } else if ("array".equals(listType.getType())) {
-            return new ArrayTaskList();
+        switch (listType) {
+            case ARRAY:
+                return new ArrayTaskList();
+            case LINKED:
+                return new LinkedTaskList();
         }
         return null;
     }
