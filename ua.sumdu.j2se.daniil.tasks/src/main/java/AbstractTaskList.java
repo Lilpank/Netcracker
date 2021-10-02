@@ -1,4 +1,3 @@
-import java.time.LocalDateTime;
 import java.util.stream.Stream;
 
 public abstract class AbstractTaskList implements Iterable<Task> {
@@ -9,7 +8,6 @@ public abstract class AbstractTaskList implements Iterable<Task> {
     public abstract int size();
 
     public abstract Task getTask(int index);
-
 
 
     public Stream<Task> getStream() {

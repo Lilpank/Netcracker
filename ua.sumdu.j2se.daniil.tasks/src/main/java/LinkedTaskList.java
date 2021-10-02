@@ -2,6 +2,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.stream.Stream;
 
 /**
@@ -25,6 +26,10 @@ public class LinkedTaskList extends AbstractTaskList implements @NotNull Iterato
         return position < size();
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(head, tail, count, position);
+    }
 
     @Override
     public boolean equals(Object obj) {

@@ -59,18 +59,6 @@ public class Tasks {
             }
         }
 
-//        tasks.forEach(task -> {
-//            System.out.println(!sortedMap.containsKey(task.getTime()));
-//            if (!sortedMap.containsKey(task.getTime())) {
-//                LocalDateTime date_key = task.getTime();
-//                sortedMap.put(
-//                        date_key,
-//                        StreamSupport.stream(iterable.spliterator(), false)
-//                                .filter(task1 -> date_key.equals(task.getTime()))
-//                                .collect(Collectors.toSet())
-//                );
-//            }
-//        });
         return sortedMap;
     }
 

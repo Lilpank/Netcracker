@@ -2,7 +2,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 
 /**
  * Класс содержит в себе массив объектов Task и различные методы для list.
@@ -34,7 +33,6 @@ public class ArrayTaskList extends AbstractTaskList implements Iterator<Task>, C
             ensureCapacity(); // вызывается метод, если закончился массив и нужно создать новый с большим размером.
         }
         elementData[size++] = task;
-        System.out.println(elementData);
     }
 
 
@@ -88,6 +86,13 @@ public class ArrayTaskList extends AbstractTaskList implements Iterator<Task>, C
         return stream;
     }
 
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(size, position);
+        result = 31 * result + Arrays.hashCode(elementData);
+        return result;
+    }
 
     @Override
     public boolean hasNext() {

@@ -1,4 +1,5 @@
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 /**
  * Класс отвечает за создание задачи.
@@ -98,10 +99,7 @@ public class Task implements Cloneable {
     }
 
     public LocalDateTime getStartTime() {
-        if (isRepeated()) {
-            return this.start;
-        }
-        return this.time;
+        return getTime();
     }
 
     public int getRepeatInterval() {
@@ -115,6 +113,24 @@ public class Task implements Cloneable {
         return this.time;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Task task = (Task) o;
+        return interval == task.interval &&
+                active == task.active &&
+                Objects.equals(title, task.title) &&
+                Objects.equals(end, task.end) &&
+                Objects.equals(start, task.start) &&
+                Objects.equals(time, task.time);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(title, end, interval, start, active, time);
+    }
+
     public void setTime(LocalDateTime start, LocalDateTime end, int interval) {
         if (interval <= 0 || start.isAfter(end)) {
             throw new IllegalArgumentException();
@@ -122,24 +138,6 @@ public class Task implements Cloneable {
         this.start = start;
         this.end = end;
         this.interval = interval;
-    }
-
-    @Override
-    public int hashCode() {
-        return super.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null) return false;
-        if (!(obj instanceof Task)) return false;
-        if (obj == this) return true;
-
-        return isCheckTask(this, (Task) obj);
-    }
-
-    private boolean isCheckTask(Task myTask, Task other) {
-        return myTask.getTitle().equals(other.getTitle()) && myTask.getTime() == other.getTime();
     }
 
     @Override
