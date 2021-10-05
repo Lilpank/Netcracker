@@ -8,8 +8,8 @@ import java.util.stream.Stream;
  */
 
 public class ArrayTaskList extends AbstractTaskList implements Iterator<Task>, Cloneable {
-
     private static final int INITIAL_CAPACITY = 10;
+    private static final long serialVersionUID = -2141619378720647873L;
     private int size = 0;
     private Task[] elementData = {};
     private int position = 0;

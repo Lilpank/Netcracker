@@ -74,5 +74,4 @@ public class Tasks {
         System.out.println(tasks.calendar(arrayTaskList, LocalDateTime.of(2021, 9, 21, 18, 13, 2, 1), LocalDateTime.now()));
 
     }
-
 }

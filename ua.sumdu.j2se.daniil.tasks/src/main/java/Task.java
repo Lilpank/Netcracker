@@ -1,3 +1,4 @@
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -13,7 +14,8 @@ import java.util.Objects;
  * @version 0.1
  * @autor Daniil Gorelykh
  */
-public class Task implements Cloneable {
+public class Task implements Cloneable, Serializable {
+    private static final long serialVersionUID = 2261744915236392856L;
     private String title;
     private LocalDateTime end;
     private int interval = 0;
@@ -91,6 +93,7 @@ public class Task implements Cloneable {
         if (time == null) {
             throw new IllegalArgumentException();
         }
+
         if (isRepeated()) {
             this.interval = 0;
         } else {
@@ -167,4 +170,11 @@ public class Task implements Cloneable {
         return null;
     }
 
+    public String getActive() {
+        return isActive() ? "1" : "0";
+    }
+
+    public String getExecutionTime() {
+        return isRepeated() ? " " + getStartTime() + "\n" + getEndTime() : " " + getTime();
+    }
 }

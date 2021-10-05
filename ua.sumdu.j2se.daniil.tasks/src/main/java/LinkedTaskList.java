@@ -11,6 +11,7 @@ import java.util.stream.Stream;
  */
 
 public class LinkedTaskList extends AbstractTaskList implements @NotNull Iterator<Task>, Cloneable {
+    private static final long serialVersionUID = -7710416860214616428L;
     private Node head;
     private Node tail;
     private int count = 0;
