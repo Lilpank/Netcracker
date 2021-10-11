@@ -1,3 +1,5 @@
+package Function;
+
 public enum ListTypes {
     ARRAY("array"), LINKED("linked");
 

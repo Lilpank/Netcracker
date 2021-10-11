@@ -1,3 +1,5 @@
+package Function;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Iterator;
@@ -10,7 +12,7 @@ import java.util.stream.Stream;
  * используется для удобства быстрой вставки\удаления элемента, выполняется за константное время.
  */
 
-public class LinkedTaskList extends AbstractTaskList implements @NotNull Iterator<Task>, Cloneable {
+public class LinkedTaskList extends AbstractTaskList implements Iterator<Task>, Cloneable {
     private static final long serialVersionUID = -7710416860214616428L;
     private Node head;
     private Node tail;
@@ -106,14 +108,14 @@ public class LinkedTaskList extends AbstractTaskList implements @NotNull Iterato
         if (count == 0) {
             return false;
         }
-        //Проверка если пришел Task на самый первый элемент, то есть head.
+        //Проверка если пришел Function.Task на самый первый элемент, то есть head.
         if (equalsTasks(head.data, task)) {
             head = head.next;
             head.previous = null;
             --count;
             return true;
         }
-        // Если пришел Task на самый последний элемент, то есть tail.
+        // Если пришел Function.Task на самый последний элемент, то есть tail.
         if (equalsTasks(tail.data, task)) {
             tail = tail.previous;
             tail.previous = null;

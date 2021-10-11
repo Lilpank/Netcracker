@@ -1,3 +1,5 @@
+package Function;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -150,7 +152,7 @@ public class Task implements Cloneable, Serializable {
 
     @Override
     public String toString() {
-        return "Task - " + getTitle() + " Время начала: " + getTime() + " Время окончания: " + getEndTime();
+        return "Function.Task - " + getTitle() + " Время начала: " + getTime() + " Время окончания: " + getEndTime();
     }
 
     public boolean isRepeated() {

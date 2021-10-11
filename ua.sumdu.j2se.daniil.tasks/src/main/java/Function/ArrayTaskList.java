@@ -1,10 +1,12 @@
+package Function;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 import java.util.stream.Stream;
 
 /**
- * Класс содержит в себе массив объектов Task и различные методы для list.
+ * Класс содержит в себе массив объектов Function.Task и различные методы для list.
  */
 
 public class ArrayTaskList extends AbstractTaskList implements Iterator<Task>, Cloneable {
@@ -132,7 +134,7 @@ public class ArrayTaskList extends AbstractTaskList implements Iterator<Task>, C
             str.append("\n");
         }
 
-        return "ArrayTaskList size: " + size() + str;
+        return "Function.ArrayTaskList size: " + size() + str;
     }
 
     @Override

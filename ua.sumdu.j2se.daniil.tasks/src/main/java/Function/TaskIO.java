@@ -1,7 +1,16 @@
+package Function;
+
 import com.google.gson.*;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Stream;
 
 public class TaskIO {
     public static void write(AbstractTaskList tasks, OutputStream out) throws IOException {
@@ -114,13 +123,14 @@ public class TaskIO {
         }
     }
 
-    // Запись объекта Task в формате JSON.
+    // Запись объекта Function.Task в формате JSON.
     public static void writeText(AbstractTaskList tasks, File file) {
         try (Writer writer = new FileWriter(file)) {
+            ArrayList<Task> list = new ArrayList<>();
             for (Task task : tasks) {
-                Gson gson = new GsonBuilder().create();
-                gson.toJson(task, writer);
+                list.add(task);
             }
+            writer.write(new Gson().toJson(list));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -128,12 +138,18 @@ public class TaskIO {
 
     // Чтение объекта из файла в формате JSON.
     public static void readText(AbstractTaskList tasks, File file) throws IOException {
-        Gson gson = new Gson();
-        try (Reader reader = new FileReader(file)) {
-            Task task = gson.fromJson(reader, Task.class);
-            tasks.add(task);
+        StringBuilder contentBuilder = new StringBuilder();
+
+        try (Stream<String> stream = Files.lines(Paths.get(file.getPath()), StandardCharsets.UTF_8)) {
+            stream.forEach(contentBuilder::append);
         } catch (IOException e) {
             e.printStackTrace();
+        }
+        List<Task> arrayList = new Gson().fromJson(contentBuilder.toString(), new TypeToken<List<Task>>() {
+        }.getType());
+
+        for (Task task : arrayList) {
+            tasks.add(task);
         }
     }
 }

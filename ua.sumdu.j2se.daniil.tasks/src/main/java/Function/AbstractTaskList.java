@@ -1,4 +1,5 @@
-import java.io.OutputStream;
+package Function;
+
 import java.io.Serializable;
 import java.util.stream.Stream;
 
@@ -12,7 +13,6 @@ public abstract class AbstractTaskList implements Iterable<Task>, Serializable {
     public abstract int size();
 
     public abstract Task getTask(int index);
-
 
     public Stream<Task> getStream() {
         Stream<Task> stream = Stream.of(this.getTask(0));
